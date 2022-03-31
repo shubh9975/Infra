@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  generateName: terrascan-hook-
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+spec:
+  ttlSecondsAfterFinished: 3600
+  template:
+    spec:
+      containers:
+      - name: terrascan-argocd-1
+        image: accurics/terrascan:latest
+        command: ["/bin/sh", "-c"]
+        args:
+        - > 
+           /go/bin/terrascan scan -r git -u https://github.com/sangam14/terrascan-argocd.git -i k8s -t k8s
+          
+      restartPolicy: Never
+  backoffLimit: 1
