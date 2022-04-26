@@ -1,0 +1,18 @@
+namespace:
+  name: "adapt"
+
+keycloak:
+  name: "keycloak"
+  replicas: 1
+  image: "quay.io/keycloak/keycloak:15.1.0"
+  user: "admin"
+  password: "admin"
+  http:
+    containerport: 8080
+  https: 
+    containerport: 8443
+  service:
+    name: "keycloak-svc"
+    port: 8080
+    targetport: 8080
+    type "ClusterIP"   

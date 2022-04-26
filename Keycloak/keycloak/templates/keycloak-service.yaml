@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.keycloak.service.name }}  #keycloak-svc
+  namespace: {{ .Values.namespace.name }}  #keycloak1
+  labels:
+    app: keycloak
+spec:
+  ports:
+  - name: http
+    port: {{ .Values.keycloak.service.port }}   #8080
+    targetPort: {{ .Values.keycloak.service.targetport }}   #8080
+  selector:
+    app: keycloak
+  type: {{ .Values.keycloak.service.type }}  #ClusterIP

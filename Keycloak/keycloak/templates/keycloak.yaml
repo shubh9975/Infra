@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.keykloak.name  }} #keycloak
+  namespace: {{ .Values.namespace.name }} #keycloak1
+  labels:
+    app: keycloak
+spec:
+  replicas: {{ .Values.Keycloak.replicas }}     #1
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+      - name: keycloak
+        image: {{ .Values.keycloak.image }}    #quay.io/keycloak/keycloak:15.1.0
+        env:
+        - name: KEYCLOAK_USER
+          value: {{ .Values.keycloak.user }}   #"admin"
+        - name: KEYCLOAK_PASSWORD
+          value: {{ .Values.keycloak.password }}   #"admin"
+        - name: PROXY_ADDRESS_FORWARDING
+          value: "true"
+        ports:
+        - name: http
+          containerPort: {{ .Values.keycloak.http.containerport }}  #8080
+        - name: https
+          containerPort: {{ .Values.keycloak.https.containerport }} #8443
+        readinessProbe:
+          httpGet:
+            path: /auth/realms/master
+            port: 8080
