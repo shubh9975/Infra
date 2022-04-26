@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: bfcmain
+  name: bfcmain
+  namespace: ingress-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bfcmain
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: bfcmain
+    spec:
+      containers:
+      - image: alwaysavail/mainpage:v1
+        name: mainpage
+        resources: {}
+status: {}

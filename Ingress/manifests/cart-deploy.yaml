@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: bfccart
+  name: bfccart
+  namespace: ingress-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bfccart
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: bfccart
+    spec:
+      containers:
+      - image: alwaysavail/bfccart
+        name: bfccart
+        resources: {}
+status: {}

@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: bfcbucket
+  name: bfcbucket
+  namespace: ingress-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bfcbucket
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: bfcbucket
+    spec:
+      containers:
+      - image: alwaysavail/bfcbucket
+        name: bfcbucket
+        resources: {}
+status: {}

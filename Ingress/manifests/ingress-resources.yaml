@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/ingress.class: "nginx"
+  name: ingress-bfc
+  namespace: ingress-demo
+spec:
+  rules:
+  - host: bfc.adapt.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: bfcmain-svc
+            port:
+              number: 80
+      - path: /bucket
+        pathType: Prefix
+        backend:
+          service:
+            name: bfcbucket-svc
+            port:
+              number: 80
+      - path: /cart
+        pathType: Prefix
+        backend:
+          service:
+            name: bfccart-svc
+            port:
+              number: 80
