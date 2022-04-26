@@ -1,0 +1,78 @@
+pipeline{
+  agent any
+ 
+  stages {    
+
+   stage("Opening"){
+         steps{
+            //Welcome message
+            script{
+               sh "echo 'Welcome to BFC'"
+}
+}
+}
+
+  stage("Workspace_cleanup"){
+        //Cleaning WorkSpace
+        steps{
+            step([$class: 'WsCleanup'])
+
+}
+}
+
+   stage("Repo_clone"){
+       //Clone repo from GitHub
+      steps {
+         checkout ([$class: 'GitSCM', branches: [[name: '*/master']], userRemoteConfigs: [[credentialsId: 'mykey', url: 'git@bitbucket.org:adapt-bfctech/devops-pipeline-demo.git']]])
+
+
+}
+}
+
+  stage("linting and formatiing"){
+    //fmt and lint
+     steps{
+      script{
+       bitbucketStatusNotify(buildState: 'FAILED', credentialsId: 'mykey')
+
+       sh '''
+            go version
+            gofmt -w hello.go 
+            go vet hello.go 
+      '''
+
+        bitbucketStatusNotify(buildState: 'SUCCESSFUL', credentialsId: 'mykey')
+
+}
+}
+}
+  stage("Image Building"){
+     steps{
+      script{
+       bitbucketStatusNotify(buildState: 'FAILED', credentialsId: 'mykey')
+       sh '''
+           docker build -t bfctech:v1 .
+           docker tag bfctech:v1 artifactory.bfctech.io:8087/adapt:v1
+       '''
+
+         bitbucketStatusNotify(buildState: 'SUCCESSFUL', credentialsId: 'mykey')
+}
+}
+}
+  stage("Image scanning"){
+     steps{
+      script{
+       bitbucketStatusNotify(buildState: 'FAILED', credentialsId: 'mykey')
+       sh '''
+            trivy image artifactory.bfctech.io:8087/adapt:v1
+            docker push artifactory.bfctech.io:8087/adapt:v1
+       '''
+
+         bitbucketStatusNotify(buildState: 'SUCCESSFUL', credentialsId: 'mykey')
+}
+}
+}
+  
+
+}
+}
