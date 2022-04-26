@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: adapt-dev-cart
+  namespace: argo-cd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: ''
+    namespace: dev
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: cart/charts/dev/cart
+    repoURL: 'git@bitbucket.org:adapt-bfctech/adapt-infra.git'
+    targetRevision: dev
+  project: dev
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: false

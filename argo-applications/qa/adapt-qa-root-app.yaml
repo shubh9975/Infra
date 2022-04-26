@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: adapt-qa-app
+  namespace: argo-cd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: qa
+    name: in-cluster
+  project: qa
+  source:
+    path: qa/adapt-qa-child-app 
+    repoURL: git@bitbucket.org:adapt-bfctech/argo-applications.git
+    targetRevision: qa
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: false
