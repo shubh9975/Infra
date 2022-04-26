@@ -1,0 +1,30 @@
+---
+- name: Add stable chart of grafana
+  kubernetes.core.helm_repository:
+      name: grafana
+      repo_url: "{{ grafana_chart_url }}" 
+  tags:
+    - install_grafana         
+- name: Deploying grafana chart
+  kubernetes.core.helm:
+      name: grafana
+      chart_ref: "{{ grafana_chart_path }}"
+      chart_version: "{{ grafana_chart_version }}"
+      release_namespace: "{{ namespace_observability }}"
+      create_namespace: true
+      kubeconfig: "{{ kubeconfig_path }}"
+      values_files:
+          - "{{ grafana_values_path }}"
+  tags:
+    - install_grafana
+    - install
+- name: uninstall a grafana
+  kubernetes.core.helm:
+    name: grafana
+    release_namespace: "{{ namespace_observability }}"
+    kubeconfig: "{{ kubeconfig_path }}"
+    release_state: absent
+
+  tags:
+    - uninstall_grafana
+    - uninstall

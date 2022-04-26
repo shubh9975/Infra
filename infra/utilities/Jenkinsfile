@@ -1,0 +1,31 @@
+pipeline{
+    agent any
+    stages{
+        stage("Workspace_cleanup"){
+        //Cleaning WorkSpace
+            steps{
+               step([$class: 'WsCleanup'])
+            }
+        }
+        stage('Checkout Infra Repo') {
+            steps {
+                git branch: 'master',
+                    credentialsId: 'jenkins',
+                    url: 'git@bitbucket.org:adapt-bfctech/infra.git'
+                sh "ls -lh"
+            }
+        }
+        stage("Execution Playbook"){
+            steps{
+              script{
+                dir('utilities'){
+                         sh """
+                            set +e
+                            ansible-playbook $params.Playbook -i $params.InventoryFile --tag $params.Tag $params.Verbose
+                         """
+                }
+              }
+            }
+        }
+    }
+}

@@ -1,0 +1,30 @@
+---
+- name: Add stable chart of loki
+  kubernetes.core.helm_repository:
+      name: jaeger
+      repo_url: "{{ jaeger_chart_url }}" 
+  tags:
+    - install_jaeger 
+- name: Deploying loki chart
+  kubernetes.core.helm:
+      name: jaeger
+      chart_ref: "{{ jaeger_chart_path }}"
+      chart_version: "{{ jaeger_chart_version }}"
+      release_namespace: "{{ namespace_observability}}"
+      create_namespace: true
+      kubeconfig: "{{ kubeconfig_path }}"
+      values_files: 
+          - "{{ jaeger_values_path }}"
+  tags:
+    - install_jaeger
+    - install
+- name: uninstall a jaeger
+  kubernetes.core.helm:
+    name: jaeger
+    release_namespace: "{{ namespace_observability }}"
+    kubeconfig: "{{ kubeconfig_path }}"
+    release_state: absent
+
+  tags:
+    - uninstall_jaeger
+    - uninstall

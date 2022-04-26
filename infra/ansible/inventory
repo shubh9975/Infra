@@ -1,0 +1,14 @@
+[jenkins]
+localhost
+
+[registry]
+localhost
+
+[sonarqube]
+localhost
+
+[kubernetes-master]
+localhost
+
+[kubernetes-worker]
+localhost

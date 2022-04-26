@@ -1,0 +1,31 @@
+---
+- name: Add stable chart of longhorn
+  kubernetes.core.helm_repository:
+      name: longhorn
+      repo_url: "{{ longhorn_chart_url }}" 
+  tags:
+     - install_longhorn         
+- name: Deploying longhorn chart
+  kubernetes.core.helm:
+      name: longhorn
+      chart_ref: "{{ longhorn_chart_path }}"
+      chart_version: "{{ longhorn_chart_version }}"
+      release_namespace: "{{ namespace_longhorn }}"
+      create_namespace: true
+      kubeconfig: "{{ kubeconfig_path }}"
+      values_files:
+          - "{{ longhorn_values_path }}" 
+
+  tags:
+    - install_longhorn
+    - install
+- name: uninstall a longhorn
+  kubernetes.core.helm:
+    name: longhorn
+    release_namespace: "{{ namespace_longhorn }}"
+    kubeconfig: "{{ kubeconfig_path }}"
+    release_state: absent
+
+  tags:
+    - uninstall_longhorn
+    - uninstall

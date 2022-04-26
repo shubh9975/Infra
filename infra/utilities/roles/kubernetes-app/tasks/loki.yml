@@ -1,0 +1,30 @@
+---
+- name: Add stable chart of loki
+  kubernetes.core.helm_repository:
+      name: loki
+      repo_url: "{{ loki_chart_url }}" 
+  tags:
+    - install_loki         
+- name: Deploying loki chart
+  kubernetes.core.helm:
+      name: loki
+      chart_ref: "{{ loki_chart_path }}"
+      chart_version: "{{ loki_chart_version }}"
+      release_namespace: "{{ namespace_observability}}"
+      create_namespace: true
+      kubeconfig: "{{ kubeconfig_path }}"
+      values_files: 
+          - "{{ loki_values_path }}"
+  tags:
+    - install_loki
+    - install
+- name: uninstall a loki
+  kubernetes.core.helm:
+    name: loki
+    release_namespace: "{{ namespace_observability }}"
+    kubeconfig: "{{ kubeconfig_path }}"
+    release_state: absent
+
+  tags:
+    - uninstall_loki
+    - uninstall

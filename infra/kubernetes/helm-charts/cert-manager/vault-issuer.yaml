@@ -1,0 +1,16 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: vault-issuer
+  namespace: default
+spec:
+  vault:
+    server: http://vault.default
+    path: pki/sign/adapt-argo-com
+    auth:
+      kubernetes:
+        mountPath: /v1/auth/kubernetes
+        role: issuer
+        secretRef:
+          name: issuer-token-9t2bv
+          key: token

@@ -1,0 +1,99 @@
+helm_url: "https://get.helm.sh/helm-v3.7.1-linux-amd64.tar.gz"
+kubectl_url: "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+kubeconfig_path: "~/.kube/config"
+roles_path: "roles/kubernetes-app/template"
+
+namespace: "adapt"
+namespace_argo: "gitops"
+namespace_secret: "secrets"
+namespace_keycloak: "keycloak"
+namespace_ingress: "ingress"
+namespace_observability: "monitoring"
+namespace_longhorn: "longhorn"
+namespace_velero: "backup"
+namespace_cadance: "cadance"
+namespace_pulser: "pulser"
+
+prometheus_chart_url: "https://prometheus-community.github.io/helm-charts"
+prometheus_chart_version: "15.2.0"
+prometheus_chart_path: "prometheus/prometheus"
+prometheus_values_path: "{{ roles_path }}/prometheus.j2"
+
+loki_chart_url: "https://grafana.github.io/helm-charts"
+loki_chart_version: "2.9.1"
+loki_chart_path: "loki/loki"
+loki_values_path: "{{ roles_path }}/loki.j2"
+
+jaeger_chart_url: "https://jaegertracing.github.io/helm-charts"
+jaeger_chart_version: "0.55.0"
+jaeger_chart_path: "jaegertracing/jaeger"
+jaeger_values_path: "{{ roles_path }}/jaeger.j2"
+
+
+grafana_chart_url: "https://grafana.github.io/helm-charts"
+grafana_chart_version: "6.21.5"
+grafana_chart_path: "loki/grafana"
+grafana_values_path: "{{ roles_path }}/grafana.j2"
+
+longhorn_chart_url: "https://charts.longhorn.j2"
+longhorn_chart_version: "1.2.3"
+longhorn_chart_path: "longhorn/longhorn"
+longhorn_values_path: "{{ roles_path }}/longhorn.j2"
+
+consul_chart_url: "https://helm.releases.hashicorp.com"
+consul_chart_version: "0.41.0"
+consul_chart_path: "consul/consul"
+consul_values_path: "{{ roles_path }}/consul.j2"
+
+vault_chart_url: "https://helm.releases.hashicorp.com"
+vault_chart_version: "0.19.0"
+vault_chart_path: "vault/vault"
+vault_values_path: "{{ roles_path }}/vault.j2"
+
+cert_chart_url: "https://charts.jetstack.io"
+cert_chart_version: "v1.7.1"
+cert_chart_path: "cert/cert-manager"
+cert_values_path: "{{ roles_path }}/cert.j2"
+
+
+argo_chart_url: "https://argoproj.github.io/argo-helm"
+argo_chart_version: "3.33.5"
+argo_chart_path: "argo/argo-cd"
+argo_values_path: "{{ roles_path }}/argo.j2"
+
+metallb_chart_url: "https://metallb.github.io/metallb"
+metallb_chart_version: "0.12.1"
+metallb_chart_path: "metallb/metallb"
+lb__values_path: "{{ roles_path }}/metallb.j2"
+
+
+nginx_chart_url: "https://helm.nginx.com/stable"
+nginx_chart_version: "0.12.0"
+nginx_chart_path: "nginx/nginx-ingress"
+ingress_values_path: "{{ roles_path }}/ingress.j2"
+
+velero_chart_url: "https://vmware-tanzu.github.io/helm-charts" 
+velero_chart_version: "2.28.0"
+velero_chart_path: "vmware-tanzu/velero"
+velero_values_path: "{{ roles_path }}/velero.j2"
+
+timescaledb_chart_url: "https://raw.githubusercontent.com/timescale/timescaledb-kubernetes/master/charts/repo/"
+timescaledb_chart_version: "0.8.0"
+timescaledb_chart_path: "timescaledb/timescaledb-multinode"
+timescaledb_values_path: "{{ roles_path }}/timescaledb.j2"
+
+
+cadance_chart_url: "https://kubernetes-charts.banzaicloud.com"
+cadance_chart_version: "0.23.0"
+cadance_chart_path: "cadance/cadence" 
+cadance_values_path: "{{ roles_path }}/cadance.j2"
+
+pulser_chart_url: "https://pulsar.apache.org/charts"
+pulser_chart_version: "2.7.12"
+pulser_chart_path: "pulser/pulsar"
+pulser_values_path: "{{ roles_path }}/pulser.j2"
+
+keycloak_chart_url: "https://charts.bitnami.com/bitnami"
+keycloak_chart_version: "6.1.6"
+keycloak_chart_path: "bitnami/keycloak"
+keycloak_values_path: "{{ roles_path }}/keycloak.j2"

@@ -1,0 +1,31 @@
+---
+- name: Add stable chart of velero
+  kubernetes.core.helm_repository:
+      name: velero
+      repo_url: "{{ velero_chart_url }}" 
+  tags:
+    - install_velero         
+- name: Deploying velero chart
+  kubernetes.core.helm:
+      name: velero
+      chart_ref: "{{ velero_chart_path }}"
+      chart_version: "{{ velero_chart_version }}"
+      release_namespace: "{{ namespace_velero }}"
+      create_namespace: true
+      kubeconfig: "{{ kubeconfig_path }}"
+      values_files: 
+          - "{{ velero_values_path }}"
+  tags:
+    - install_velero
+    - install
+
+- name: uninstall a velero
+  kubernetes.core.helm:
+    name: velero
+    release_namespace: "{{ namespace_velero }}"
+    kubeconfig: "{{ kubeconfig_path }}"
+    release_state: absent
+
+  tags:
+    - uninstall_velero
+    - uninstall

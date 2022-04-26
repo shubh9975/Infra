@@ -1,0 +1,22 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-stg
+  namespace: cert-manager
+spec:
+  acme:
+    email: my_letsencrypt_email@mydom.com
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      # Secret resource that will be used to store the account's private key.
+      name: le-issuer-acct-key
+    solvers:
+    - dns01:
+        cloudflare:
+          email: shubham.tamboli@bfctech.io
+          apiTokenSecretRef:
+            name: cloudflare-api-token-secret
+            key: api-token
+      selector:
+        dnsZones:
+        - 'adapt.argo.com'

@@ -1,0 +1,6 @@
+---
+ - name: Deploy trivy
+   hosts: trivy-host
+   gather_facts: yes
+   roles:
+     - roles/trivy

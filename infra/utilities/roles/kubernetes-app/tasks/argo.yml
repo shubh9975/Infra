@@ -1,0 +1,30 @@
+---
+- name: Add stable chart of argo
+  kubernetes.core.helm_repository:
+      name: argo
+      repo_url: "{{ argo_chart_url }}" 
+  tags:
+    - install_argo         
+- name: Deploying argo chart
+  kubernetes.core.helm:
+      name: argo
+      chart_ref: "{{ argo_chart_path }}"
+      chart_version: "{{ argo_chart_version }}"
+      release_namespace: "{{ namespace_argo }}"
+      create_namespace: true
+      kubeconfig: "{{ kubeconfig_path }}"
+      values_files: 
+          - "{{ argo_values_path }}"
+  tags:
+   - install_argo 
+   - install
+- name: uninstall a argo
+  kubernetes.core.helm:
+    name: argo
+    release_namespace: "{{ namespace_argo }}"
+    kubeconfig: "{{ kubeconfig_path }}"
+    release_state: absent
+
+  tags:
+    - uninstall_argo
+    - uninstall

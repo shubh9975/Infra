@@ -1,0 +1,30 @@
+---
+- name: Add stable chart of cert manager
+  kubernetes.core.helm_repository:
+      name: cert
+      repo_url: "{{ cert_chart_url }}" 
+  tags:
+    - install_cert
+- name: Deploying cert chart
+  kubernetes.core.helm:
+      name: cert
+      chart_ref: "{{ cert_chart_path }}"
+      chart_version: "{{ cert_chart_version }}"
+      release_namespace: "{{ namespace_secret }}"
+      create_namespace: true
+      kubeconfig: "{{ kubeconfig_path }}"
+      values_files: 
+          - "{{ cert_values_path }}"
+  tags:
+   - install_cert
+   - install
+- name: uninstall a cert manager
+  kubernetes.core.helm:
+    name: cert
+    release_namespace: "{{ namespace_secret }}"
+    kubeconfig: "{{ kubeconfig_path }}"
+    release_state: absent
+
+  tags:
+    - uninstall_cert
+    - uninstall

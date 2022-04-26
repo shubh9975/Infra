@@ -1,0 +1,6 @@
+---
+ - name: Deploy jenkins
+   hosts: nexus-host
+   gather_facts: yes
+   roles:
+     - roles/nexus

@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: adapt-certificate
+  namespace: default
+spec:
+  secretName: adapt-argo-com-tls
+  issuerRef:
+    name: vault-issuer
+  commonName: "adapt.argo.com"
+  dnsNames:
+  - "adapt.argo.com"

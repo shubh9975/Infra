@@ -1,0 +1,31 @@
+---
+- name: Add stable chart of prometheus
+  kubernetes.core.helm_repository:
+      name: prometheus
+      repo_url: "{{ prometheus_chart_url }}" 
+  tags: 
+    - install_prometheus
+           
+- name: Deploying prometheus chart
+  kubernetes.core.helm:
+      name: prometheus
+      chart_ref: "{{ prometheus_chart_path }}"
+      chart_version: "{{ prometheus_chart_version }}"
+      release_namespace: "{{ namespace_observability }}"
+      create_namespace: true
+      kubeconfig: "{{ kubeconfig_path }}"
+      values_files: 
+           - "{{ prometheus_values_path }}"
+  tags: 
+    - install_prometheus
+    - install
+- name: uninstall a prometheus 
+  kubernetes.core.helm:
+    name: prometheus
+    release_namespace: "{{ namespace_observability }}"
+    kubeconfig: "{{ kubeconfig_path }}"
+    release_state: absent
+
+  tags: 
+    - uninstall_prometheus
+    - uninstall

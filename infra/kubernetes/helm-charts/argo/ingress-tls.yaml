@@ -1,0 +1,42 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/issuer: vault-issuer
+    kubernetes.io/ingress.class: nginx
+    meta.helm.sh/release-name: argocd
+    meta.helm.sh/release-namespace: argocd
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  creationTimestamp: "2021-12-22T10:28:47Z"
+  generation: 3
+  labels:
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: argocd
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: argocd-server
+    app.kubernetes.io/part-of: argocd
+    helm.sh/chart: argo-cd-3.29.4
+  name: argocd-server
+  namespace: argocd
+  resourceVersion: "108122"
+  uid: 0c36eb87-6a26-44d7-bd14-b73773c7c924
+spec:
+  rules:
+  - host: argo.adapt.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: argocd-server
+            port:
+              number: 443
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - argo.adapt.com
+    secretName: argo-adapt-com-tls
+status:
+  loadBalancer:
+    ingress:
+    - ip: 192.168.188.14

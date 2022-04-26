@@ -1,0 +1,30 @@
+---
+- name: Add bitnami chart for keycloak
+  kubernetes.core.helm_repository:
+      name: bitnami
+      repo_url: "{{ keycloak_chart_url }}" 
+  tags:
+    - install_keycloak         
+- name: Deploying bitnami/keycloak chart
+  kubernetes.core.helm:
+      name: keycloak
+      chart_ref: "{{ keycloak_chart_path }}"
+      chart_version: "{{ keycloak_chart_version }}"
+      release_namespace: "{{ namespace_keycloak }}"
+      create_namespace: true
+      kubeconfig: "{{ kubeconfig_path }}"
+      values_files: 
+          - "{{ keycloak_values_path }}"
+  tags:
+   - install_keycloak 
+   - install
+- name: uninstall a bitnami/keycloak
+  kubernetes.core.helm:
+    name: keycloak
+    release_namespace: "{{ namespace_keycloak }}"
+    kubeconfig: "{{ kubeconfig_path }}"
+    release_state: absent
+
+  tags:
+    - uninstall_keycloak
+    - uninstall

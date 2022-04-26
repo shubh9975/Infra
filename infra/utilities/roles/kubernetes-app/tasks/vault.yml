@@ -1,0 +1,60 @@
+---
+- name: Add stable chart of consul
+  kubernetes.core.helm_repository:
+      name: consul
+      repo_url: "{{ consul_chart_url }}"
+  tags:
+    - install_vault
+- name: Deploying consul chart
+  kubernetes.core.helm:
+      name: consul
+      chart_ref: "{{ consul_chart_path }}"
+      chart_version: "{{ consul_chart_version }}"
+      release_namespace: "{{ namespace_secret }}"
+      create_namespace: true
+      kubeconfig: "{{ kubeconfig_path }}"
+      values_files:
+          - "{{ consul_values_path }}"
+  tags:
+   - install_vault
+   - install
+- name: uninstall a consul
+  kubernetes.core.helm:
+    name: consul
+    release_namespace: "{{ namespace_secret }}"
+    kubeconfig: "{{ kubeconfig_path }}"
+    release_state: absent
+
+  tags:
+    - uninstall_vault
+    - uninstall
+
+- name: Add stable chart of vault
+  kubernetes.core.helm_repository:
+      name: vault
+      repo_url: "{{ vault_chart_url }}" 
+  tags:
+    - install_vault         
+- name: Deploying vault chart
+  kubernetes.core.helm:
+      name: vault
+      chart_ref: "{{ vault_chart_path }}"
+      chart_version: "{{ vault_chart_version }}"
+      release_namespace: "{{ namespace_secret }}"
+      create_namespace: true
+      kubeconfig: "{{ kubeconfig_path }}"
+      values_files: 
+          - "{{ vault_values_path }}"
+  tags:
+   - install_vault
+   - install
+- name: uninstall a vault
+  kubernetes.core.helm:
+    name: vault
+    release_namespace: "{{ namespace_secret }}"
+    kubeconfig: "{{ kubeconfig_path }}"
+    release_state: absent
+
+  tags:
+    - uninstall_vault
+    - uninstall

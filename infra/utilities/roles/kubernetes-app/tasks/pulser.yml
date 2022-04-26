@@ -1,0 +1,31 @@
+---
+- name: Add stable chart of pulser
+  kubernetes.core.helm_repository:
+      name: pulser
+      repo_url: "{{ pulser_chart_url }}" 
+  tags:
+    - install_pulser         
+- name: Deploying pulser chart
+  kubernetes.core.helm:
+      name: pulser
+      chart_ref: "{{ pulser_chart_path }}"
+      chart_version: "{{ pulser_chart_version }}"
+      release_namespace: "{{ namespace_pulser }}"
+      create_namespace: true
+      kubeconfig: "{{ kubeconfig_path }}"
+      values_files: 
+          - "{{ pulser_values_path }}"
+  tags:
+   - install_pulser
+   - install
+
+- name: uninstall a pulser
+  kubernetes.core.helm:
+    name: pulser
+    release_namespace: "{{ namespace_pulser }}"
+    kubeconfig: "{{ kubeconfig_path }}"
+    release_state: absent
+
+  tags:
+    - uninstall_pulser
+    - uninstall

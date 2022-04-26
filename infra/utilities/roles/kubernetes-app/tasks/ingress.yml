@@ -1,0 +1,31 @@
+---
+- name: Add stable chart of nginx
+  kubernetes.core.helm_repository:
+      name: nginx
+      repo_url: "{{ nginx_chart_url }}" 
+  tags:
+    - install_nginx-ingress         
+- name: Deploying nginx chart
+  kubernetes.core.helm:
+      name: nginx-ingress
+      chart_ref: "{{ nginx_chart_path }}"
+      chart_version: "{{ nginx_chart_version }}"
+      release_namespace: "{{ namespace_ingress}}"
+      create_namespace: true
+      kubeconfig: "{{ kubeconfig_path }}"
+      values_files: 
+           - "{{ ingress_values_path }}"
+  tags:
+    - install_nginx-ingress
+    - install
+
+- name: uninstall a nginx-ingress
+  kubernetes.core.helm:
+    name: nginx-ingress
+    release_namespace: "{{ namespace_ingress }}"
+    kubeconfig: "{{ kubeconfig_path }}"
+    release_state: absent
+
+  tags:
+    - uninstall_nginx-ingress
+    - uninstall

@@ -1,0 +1,31 @@
+---
+- name: Add stable chart of metallb
+  kubernetes.core.helm_repository:
+      name: metallb
+      repo_url: "{{ metallb_chart_url }}" 
+  tags:
+    - install_metallb         
+- name: Deploying metallb chart
+  kubernetes.core.helm:
+      name: metallb
+      chart_ref: "{{ metallb_chart_path }}"
+      chart_version: "{{ metallb_chart_version }}"
+      release_namespace: "{{ namespace_ingress }}"
+      create_namespace: true
+      kubeconfig: "{{ kubeconfig_path }}"
+      values_files:
+          -  "{{ lb__values_path }}"
+  tags:
+    - install_metallb
+    - install
+
+- name: uninstall a metallb
+  kubernetes.core.helm:
+    name: metallb
+    release_namespace: "{{ namespace_ingress }}"
+    kubeconfig: "{{ kubeconfig_path }}"
+    release_state: absent
+
+  tags:
+    - uninstall_metallb
+    - uinstall

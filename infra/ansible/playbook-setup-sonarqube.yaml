@@ -1,0 +1,6 @@
+---
+ - name: Deploy sonarqube
+   hosts: sonarqube
+   gather_facts: yes
+   roles:
+     - roles/sonarqube

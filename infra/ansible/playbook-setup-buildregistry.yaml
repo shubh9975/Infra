@@ -1,0 +1,6 @@
+---
+ - name: Deploy nexus registry
+   hosts: registry
+   gather_facts: yes
+   roles:
+     - roles/nexus

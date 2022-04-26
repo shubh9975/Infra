@@ -1,0 +1,61 @@
+---
+- name: Add stable chart of timescaledb
+  kubernetes.core.helm_repository:
+      name: timescaledb
+      repo_url: "{{ timescaledb_chart_url }}"
+  tags:
+    - install_cadance
+- name: Deploying timescaledb chart
+  kubernetes.core.helm:
+      name: timescaledb
+      chart_ref: "{{ timescaledb_chart_path }}"
+      chart_version: "{{ timescaledb_chart_version }}"
+      release_namespace: "{{ namespace_cadance}}"
+      create_namespace: true
+      kubeconfig: "{{ kubeconfig_path }}"
+      values_files:
+          - "{{ timescaledb_values_path }}"
+  tags:
+   - install_cadance
+   - install
+- name: uninstall a timescaledb
+  kubernetes.core.helm:
+    name: timescaledb
+    release_namespace: "{{ namespace_cadance }}"
+    kubeconfig: "{{ kubeconfig_path }}"
+    release_state: absent
+
+  tags:
+    - uninstall_cadance
+    - uninstall
+
+
+- name: Add stable chart of cadance
+  kubernetes.core.helm_repository:
+      name: cadance
+      repo_url: "{{ cadance_chart_url }}" 
+  tags:
+    - install_cadance
+- name: Deploying cadance chart
+  kubernetes.core.helm:
+      name: cadance
+      chart_ref: "{{ cadance_chart_path }}"
+      chart_version: "{{ cadance_chart_version }}"
+      release_namespace: "{{ namespace_cadance }}"
+      create_namespace: true
+      kubeconfig: "{{ kubeconfig_path }}"
+      values_files: 
+          - "{{ cadance_values_path }}"
+  tags:
+   - install_cadance
+   - install
+- name: uninstall a cadance
+  kubernetes.core.helm:
+    name: cadance
+    release_namespace: "{{ namespace_cadance }}"
+    kubeconfig: "{{ kubeconfig_path }}"
+    release_state: absent
+
+  tags:
+    - uninstall_cadance
+    - uninstall

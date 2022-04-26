@@ -1,0 +1,11 @@
+- name: Installing utilities
+  block:
+    - name: Installing helm 
+      get_url:
+        url: "{{helm_url}}"
+        dest: /usr/bin
+    - name: Installing kubectl
+      shell: 
+          curl -LO "{{kubectl_url}}"
+  tags: 
+    - utilities_install

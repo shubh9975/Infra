@@ -1,0 +1,111 @@
+---
+   - include_tasks: utilities.yml 
+     tags:
+       - utilities_install
+         #- include_tasks: longhorn.yml
+   - include_tasks: packages.yml
+   - include_tasks: prometheus.yml
+     tags:
+       - install_prometheus
+       - uninstall_prometheus
+       - install
+       - uninstall
+   - include_tasks: secret-manager.yml
+     tags:
+       - install_secret
+       - uninstall_secret
+       - install
+       - uninstall
+
+   - include_tasks: ingresscontroller-LB.yml
+   - include_tasks: velero.yml
+     tags:
+       - install_velero
+       - uninstall_velero
+       - install
+       - uninstall
+
+   - include_tasks: argo.yml
+     tags: 
+       - install_argo
+       - uninstall_argo
+       - install
+       - uninstall
+
+   - include_tasks: longhorn.yml
+     tags:
+       - install_longhorn 
+       - uninstall_longhorn
+       - install
+       - uninstall
+
+   - include_tasks: metallb.yml
+     tags:
+       - install_metallb
+       - uninstall_metallb
+       - install
+       - uninstall
+
+   - include_tasks: ingress.yml
+     tags:
+       - install_nginx-ingress
+       - uninstall_nginx-ingress
+       - install
+       - uninstall
+
+   - include_tasks: loki.yml
+     tags:
+       - install_loki
+       - uninstall_loki 
+       - install
+       - uninstall
+
+   - include_tasks: grafana.yml
+     tags:
+       - install_grafana
+       - uninstall_grafana
+       - install
+       - uninstall
+
+   - include_tasks: pulser.yml
+     tags:
+       - install_pulser
+       - uninstall_pulser
+       - install
+       - uninstall
+
+   - include_tasks: cadance.yml
+     tags:
+       - install_cadance
+       - uninstall_cadance
+       - install
+       - uninstall
+
+   - include_tasks: consul.yml
+     tags:
+       - install_consul
+       - uninstall_consul
+       - install
+       - uninstall
+   - include_tasks: keycloak.yml
+     tags:
+       - install_keycloak
+       - uninstall_keycloak
+       - install
+       - uninstall
+
+
+
+   - include_tasks: vault.yml
+     tags:
+       - install_vault
+       - uninstall_vault
+       - install
+       - uninstall
+
+   - include_tasks: cert.yml
+     tags:
+       - install_cert
+       - uninstall_cert
+       - install
+       - uninstall
