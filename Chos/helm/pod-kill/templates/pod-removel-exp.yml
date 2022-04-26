@@ -1,0 +1,18 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: Schedule
+metadata:
+  name: pod-kill
+  namespace: {{ .Values.namespace.name }}
+spec:
+  schedule: '@every 20s'
+  type: PodChaos
+  historyLimit: 5
+  concurrencyPolicy: Forbid
+  podChaos:
+    action: pod-kill
+    mode: one
+    selector:
+      namespaces:
+      - {{ .Values.target.namespace.name }}
+      labelSelectors:
+        {{ .Values.target.lable.name }}

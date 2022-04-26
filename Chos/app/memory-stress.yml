@@ -1,0 +1,16 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: StressChaos
+metadata:
+  name: memory-stress-example
+  namespace: chaos-exp
+spec:
+  mode: one
+  selector:
+    namespaces:
+    - app
+    labelSelectors:
+      app: nginx
+  stressors:
+    memory:
+      workers: 4
+      size: '1G'

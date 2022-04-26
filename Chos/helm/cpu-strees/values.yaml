@@ -1,0 +1,8 @@
+namespace:
+  name: chaos-experiments
+
+target:
+  namespace:
+    name: app
+  label: 
+    name: "app: nginx"

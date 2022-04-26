@@ -1,0 +1,15 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: network-delay
+  namespace: {{ Values.namespace.name }}
+spec:
+  action: delay
+  mode: one
+  selector:
+    namespaces:
+    - {{ Values.target.namespace.name }}
+    labelSelectors:
+      {{ Values.target.label.name }}
+  delay:
+    latency: 1000ms

@@ -1,0 +1,18 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: StressChaos
+metadata:
+  name: burn-cpu
+  namespace: {{ Values.namespace.name  }}
+spec:
+  mode: one    #all
+  selector:
+      namespaces:
+      - {{ Values.target.namespace.name }}
+      labelSelectors:
+        {{ Values.target.label.name}}
+  stressors:
+    cpu:
+      workers: 2
+      load: 90
+      options: ["--cpu 1", "--timeout 600", "--hdd 1"]
+  duration: "300s"

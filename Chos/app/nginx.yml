@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  namespace: app
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  labels:
+    app: nginx
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+        chaos: blast-here
+    spec:
+      containers:
+      - image: nginx
+        name: nginx

@@ -1,0 +1,17 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: DNSChaos
+metadata:
+  name: dns-chaos
+  namespace: chaos-exp
+spec:
+  action: error
+  mode: all
+  patterns:
+    - google.com
+    - chaos-mesh.*
+    - github.?om
+  selector:
+    namespaces:
+      - app
+    labelSelectors:
+       app: nginx

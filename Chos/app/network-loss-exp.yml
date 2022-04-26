@@ -1,0 +1,16 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: network-loss
+spec:
+  action: loss
+  mode: one
+  selector:
+    namespaces:
+    - default
+    labelSelectors:
+      app: web-show
+  loss:
+    loss: "25"
+    correlation: "1000"
+  #duration: "120s"
